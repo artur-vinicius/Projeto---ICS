@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adicionar Sala</title>
+</head>
+<body>
+    <header>
+        <h1>Menu</h1>
+        <ul>
+            <li><a href="adicionar_sala.html">Adicionar Sala</a></li>
+            <li><a href="listar_salas.html">Listar Salas</a></li>
+            <li><a href="atualizar_sala.html">Atualizar Sala</a></li>
+            <li><a href="deletar_sala.html">Deletar Sala</a></li>
+        </ul>
+    </header>
+    <h2>Adicionar Sala</h2>
+    <form action="criar_sala.php" method="post">
+        Número da Sala: <input type="number" name="numero_sala"><br>
+        Reservado? <input type="checkbox" name="reservado"><br>
+        Nome da Sala: <input type="text" name="nome_sala"><br>
+        <input type="submit" value="Adicionar Sala">
+    </form>
+</body>
+</html>
