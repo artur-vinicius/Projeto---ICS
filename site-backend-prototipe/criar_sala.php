@@ -4,10 +4,8 @@ $username = "seu_usuario";
 $password = "sua_senha";
 $database = "Locus";
 
-// Conexão com o banco de dados
 $conn = new mysqli($servername, $username, $password, $database);
 
-// Verificação da conexão
 if ($conn->connect_error) {
     die("Falha na conexão: " . $conn->connect_error);
 }
