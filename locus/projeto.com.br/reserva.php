@@ -38,8 +38,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_reserva'])) {
     $data_hora_reserva_editar = date("Y-m-d H:i:s", strtotime("$data_reserva_editar $hora_reserva_editar"));
 
     // Atualizar os dados da reserva no banco de dados
-    $sql = "UPDATE Reserva SET Dt_Hr = '$data_hora_reserva_editar', ID = '$id_sala_editar' WHERE ID = $id_reserva_editar";
-    $conn->query($sql);
+    $sql = "UPDATE Reserva SET Dt_Hr = ? , ID = ? WHERE ID = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssi", $data_hora_reserva_editar, $id_sala_editar, $id_reserva_editar);
+    $stmt->execute();
+    $stmt->close();
 
     header("Location: reserva.php");
     exit();
@@ -50,8 +53,30 @@ if (isset($_GET['acao']) && $_GET['acao'] == 'excluir' && isset($_GET['id_reserv
     $id_reserva_excluir = $_GET['id_reserva'];
 
     // Excluir a reserva do banco de dados
-    $sql = "DELETE FROM Reserva WHERE ID = $id_reserva_excluir";
-    $conn->query($sql);
+    $sql = "DELETE FROM Reserva WHERE ID = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_reserva_excluir);
+    $stmt->execute();
+    $stmt->close();
+
+    header("Location: reserva.php");
+    exit();
+}
+
+// Ação de adicionar reserva
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_reserva'])) {
+    $id_sala = $_POST['id_sala'];
+    $data_reserva = $_POST['data_reserva'];
+    $hora_reserva = $_POST['hora_reserva'];
+
+    $data_hora_reserva = $data_reserva . ' ' . $hora_reserva;
+
+    // Inserir a reserva no banco de dados
+    $sql = "INSERT INTO Reserva (Dt_Hr, ID) VALUES (?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("si", $data_hora_reserva, $id_sala);
+    $stmt->execute();
+    $stmt->close();
 
     header("Location: reserva.php");
     exit();
@@ -131,7 +156,6 @@ if (isset($_GET['acao']) && $_GET['acao'] == 'excluir' && isset($_GET['id_reserv
 
 <h2>LOCUS - RESERVAS</h2>
 
-
 <!-- Formulário de Reserva -->
 <form action="reserva.php" method="post">
     <label for="id_sala">Sala:</label>
@@ -180,9 +204,6 @@ if (isset($_GET['acao']) && $_GET['acao'] == 'excluir' && isset($_GET['id_reserv
 </table>
 
 <a href='../projeto.backend.biz/salas.php'>Cadastrar salas</a>
-
-
-
 
 <?php
 if (isset($_GET['acao']) && $_GET['acao'] == 'editar' && isset($_GET['id_reserva'])) {
