@@ -2,4 +2,4 @@ LOCUS
 
 Site para reservar salas
 
-![locus-logo](https://github.com/artur-vinicius/Projeto---ICS/assets/101953125/40badff9-48d5-4c8f-ab57-bfa69368ba12)
+![Locus-logo](https://github.com/artur-vinicius/Projeto---ICS/assets/93359952/99f0dbe3-4a56-4ebe-8255-32daa51b03aa)
